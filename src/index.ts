@@ -1,7 +1,23 @@
-import { Elysia } from "elysia";
+import { logger } from '@grotto/logysia';
+import { Elysia } from 'elysia';
+import { securitySetup } from './commons/security';
+import { swaggerSetup } from './commons/swagger';
 
-const app = new Elysia().get("/", () => "Hello Elysia").listen(3000);
+const PORT = process.env.PORT || 3000;
+export const app = new Elysia();
 
-console.log(
-  `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`
-);
+app
+  .use(securitySetup)
+  .use(swaggerSetup)
+  .use(logger())
+  // .use(hooksSetup)
+  .get('/', () => 'Hello Bun.js!')
+  // .group('/api', (app: Elysia) =>
+  //   app
+  //     .use(usersController)
+  //     .use(staticDataController)
+  //     // and other controllers
+  // )
+  .listen(PORT, () => {
+    console.log(`🦊 Elysia is running at ${app.server?.hostname}:${PORT}`);
+  });

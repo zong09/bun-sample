@@ -40,3 +40,7 @@ yarn-error.log*
 **/*.log
 package-lock.json
 **/*.bun
+
+.vscode
+
+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
